@@ -1,0 +1,33 @@
+# Define configuration of robot modeling
+
+gravity_direction: -z  # choose one from "0 +x +y +z -x -y -z"
+
+# if using_urdf_model==False, write robot configuration in configuration.yaml. 
+using_urdf_model: false
+# urdf_model: \urdf\ur5\urdf\ur5.urdf
+# urdf_model: \urdf\kinova_gen3\urdf\GEN3_URDF_V12.urdf
+
+# If override_joint_limit = False, use the urdf joint limits defined in URDF.
+# If using_urdf_model = False, override_joint_limit is always true.
+# Ensure the size = dof.
+override_joint_limit: false
+# 方案A
+joint_lower_limit: [-180,-45,-180,-150,-180,-45,-90]  # unit: deg
+joint_upper_limit: [60,180,180,10,180,45,90]  # unit: deg
+# 方案B
+# joint_lower_limit: [-45,-180,-180,-150,-180,-45,-90]  # unit: deg
+# joint_upper_limit: [180,60,180,10,180,45,90]  # unit: deg
+# 方案C
+# joint_lower_limit: [-180,-45,-180,-150,-180,-45,-180]  # unit: deg
+# joint_upper_limit: [60,180,180,10,180,45,180]  # unit: deg
+
+add_end_load: true
+# 方案A、B
+end_load_pos: [0.1, 0., 0., 0., 1.5708, 0.]   # x,y,z,r,p,y related to last joint frame, unit: m, ZYX order.
+# 方案C
+# end_load_pos: [0., 0., 0.1, 0., 0., 0.]   # x,y,z,r,p,y related to last joint frame, unit: m, ZYX order.
+end_load: 5 # unit kg
+end_load_inertia: 0.005 # unit kg*m^2, can be estimated by sphere formula: I=0.4*m*R^2
+
+# sampling number for static joint load。
+num_sampling: 50000

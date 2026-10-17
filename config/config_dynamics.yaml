@@ -1,0 +1,77 @@
+# Define configuration of trajectory and dynamic simulation
+time_step: 0.01
+
+# Planning space: "joint" or "cartesian"
+planning_space: joint
+
+# if planning_space is joint, interpolation_space is default joint.
+# if planning_space is cartesian, interpolation_space can be "joint" or "cartesian".
+interpolation_space: joint  
+
+# Interpolation method: "cubic" or "quintic"
+interpolation_method: cubic
+
+# Trajectory define type:
+# 1. provide time series of robot states.
+# 2. provide start and end robot states, and plan the motion under constraints.
+trajectory_type: 2
+
+# if trajectory_type = 1
+# Provide a csv file, each row is a state, pleast provide equally spaced data, and the time_step will be covered.
+# if planning_space is joint, it is time+jointstate (1+dof or 1+2*dof).
+# if planning_space is cartesian, it is time+pos (1+7) or time+pos+vel (1+7+6). quat:wxyz
+# trajectory_data_file: data/trajectory/an_mo.csv
+
+# if trajectory_type = 2
+# Provide initial and end states.
+# if planning_space is joint, dof positions and dof velocities. Unit: rad, rad/s
+# if planning_space is cartesian, 3 positions and 4 quaternion, 3 linear velocities and 3 angular velocities related to the world frame. Unit: m, rad.
+#
+# Default settings below are the case study motion (see docs/case_study.md):
+# from the home configuration to an end configuration given by the functional
+# joint angles
+#   [shoulder pitch, shoulder lateral, shoulder yaw, elbow pitch, elbow rotation, wrist pitch, last joint]
+# The three schemes execute this same commanded motion; to switch the scheme,
+# activate the matching blocks here, in config_modeling.yaml and in config_manual_robot.yaml.
+start_configuration: [0,0,0,0,0,0,0]
+start_velocity: [0,0,0,0,0,0,0]
+# 方案A: [ 45, -30,  40, -60,  45,  30,  45] deg
+end_configuration: [0.7854, -0.5236, 0.6981, -1.0472, 0.7854, 0.5236, 0.7854]
+# 方案B: [-30,  45,  40, -60,  45,  30,  45] deg (肩侧摆与肩俯仰交换顺序)
+# end_configuration: [-0.5236, 0.7854, 0.6981, -1.0472, 0.7854, 0.5236, 0.7854]
+# 方案C: 与方案A相同，差异在 config_manual_robot.yaml 的 Link7 和 config_modeling.yaml 的 end_load_pos
+end_velocity: [0,0,0,0,0,0,0]
+
+# Constraints: 
+# Only one of following constraints works, and the others will be covered.
+# 1. trajectory duration.
+# 2. maximal velocity of end effector.
+# 3. maximal acceleration of end effector.
+# 4. limit of joint maximal torques and velocities.
+#
+# Case study usage:
+#   section (4), deterministic dynamics comparison: constraint_mode = 1, trajectory_duration = 2 s
+#   section (5), stochastic dynamics analysis      : constraint_mode = 2, max_ee_velocity = 5 m/s
+constraint_mode: 2
+# constraint_mode: 1
+
+trajectory_duration: 2   # unit: s, used by constraint_mode 1
+max_ee_velocity: 5 # unit: m/s, used by constraint_mode 2
+max_ee_acceleration: 50 # unit: m/s2
+
+# using the motor parameters * gear_ratio. 
+# if consider_transmission_loss, the actual output will be caculated automatically.
+joint_peak_torque: [135, 135, 67.5, 82.8, 82.8, 41.4, 41.4]  # unit: Nm
+joint_peak_velocity: [9.42,9.42,9.42,18.85,18.85,37.7,37.7] # unit: rad/s
+# joint_peak_torque: [85,89.5,55.7,62.6,12,14,1.4]  # unit: Nm
+# joint_peak_velocity: [4.57, 6.08, 8.26, 5.4, 15.66, 8.64, 16.45] # unit: rad/s
+
+# TODO: add other type of motor_characteristic_curve
+
+# Motor inertia: including motor axis, high-speed gear axis, etc. It also need torque for angular acceleration. 
+# Transmission_efficiency: mainly induced by friction and damping, shown as reduce of torque.
+# Please give the same number of values to DOF if considering, and it will provide both joint and motor results. 
+consider_transmission_loss: false
+motor_inertia: [68e-6,68e-6,34e-6,46e-6,46e-6,10e-6,10e-6]   # Unit: kg*m^2
+gear_ratio: [22,22,28,16.5,16.5,13.5,13.5]
+transmission_efficiency: [0.85,0.85,0.9,0.85,0.85,0.85,0.85]  # between 0~1

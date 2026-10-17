@@ -1,0 +1,17 @@
+*.gif
+*.txt
+*.csv
+*.mat
+
+# LaTeX build artifacts
+*.aux
+.preview-server.pid
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+docs/Sim4RAD*
+.vscode

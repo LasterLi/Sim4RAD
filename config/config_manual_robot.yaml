@@ -1,0 +1,52 @@
+# Only if using_urdf_model==False in configuration_parameter.yaml, this file will be used
+# This is suggested only in conceptual phase and there is no urdf model.
+dof: 7
+num_links: 7
+estimated_total_mass: 10.0
+
+# List the link/joint frame [x,y,z,roll,pitch,yaw] related to the parent link frame, unit: m, deg
+# Eular angle is ZYX mode.
+
+# Case A
+Link1_pose: 0, 0, 0, -90, 0, 0
+Link2_pose: 0, 0, 0.1, 0, 90, 0
+Link3_pose: 0, 0, 0, -90, 0, 0
+Link4_pose: 0, 0, 0.3, 0, -90, 0
+Link5_pose: 0, 0, 0, 0, 90, 0
+Link6_pose: 0, 0, 0.3, 0, -90, 0
+Link7_pose: 0, 0, 0, 90, 0, 0
+# 方案B
+# Link1_pose: 0, 0, 0, 0, 90, 0
+# Link2_pose: 0, 0.1, 0, -90, 0, 0
+# Link3_pose: 0, 0, 0, 0, 90, 0
+# Link4_pose: 0, 0, 0.3, 0, -90, 0
+# Link5_pose: 0, 0, 0, 0, 90, 0
+# Link6_pose: 0, 0, 0.3, 0, -90, 0
+# Link7_pose: 0, 0, 0, 90, 0, 0
+# 方案C
+# Link1_pose: 0, 0, 0, -90, 0, 0
+# Link2_pose: 0, 0, 0.1, 0, 90, 0
+# Link3_pose: 0, 0, 0, -90, 0, 0
+# Link4_pose: 0, 0, 0.3, 0, -90, 0
+# Link5_pose: 0, 0, 0, 0, 90, 0
+# Link6_pose: 0, 0, 0.3, 0, -90, 0
+# Link7_pose: 0, 0, 0, 0, 90, 0
+
+# List the joint type (fixed or revolute, other type is not supported).
+# Ensure the link number and dof are correct.
+Link1_type: revolute
+Link2_type: revolute
+Link3_type: revolute
+Link4_type: revolute
+Link5_type: revolute
+Link6_type: revolute
+Link7_type: revolute
+
+# List the radius of each link, used for inertia estimation and collision detection, unit: m
+Link1_radius: 0.04
+Link2_radius: 0.04
+Link3_radius: 0.04
+Link4_radius: 0.03
+Link5_radius: 0.03
+Link6_radius: 0.02
+Link7_radius: 0.02

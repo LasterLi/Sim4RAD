@@ -1,0 +1,40 @@
+use_parallel: true
+
+arm_length: 0.8
+
+# discretization parameter
+# The case study uses a coarser discretization so that the three schemes can be
+# computed in a reasonable time (the analysis solves one constrained IK per
+# position and per direction). Refine it for production use.
+position_resolution: 0.15
+orientation_discretization_num: 12
+
+# custom range used in analysis
+use_custom_bound: true
+custom_workspace_lower_bound: [0,-0.6,-0.7]
+custom_workspace_upper_bound: [0.8,0.8,0.7]
+
+fk_sampling_num: 20000000
+use_ik: true
+
+# custom range used in visualization
+use_vis_custom_bound: false
+custom_vis_lower_bound: [0,-0.7,-0.7]
+custom_vis_upper_bound: [0.7,0.7,0.7]
+
+# Base pose used in visualization
+base_position: [0,0,0]
+base_orientation: [1,0,0,0]
+
+# To enhance the visualization effect, decrease the visualization resolution to 
+# vis_resolution_factor * position_resolution of original data.
+# (int) >= 1
+vis_resolution_factor: 1
+
+# TODO
+# Note: the manual (cylinder) model cannot be used with self-collision checking:
+# the collision cylinders of Link1 and Link3 touch each other at the shoulder
+# joint (Link2 has zero length, so the two are not treated as adjacent bodies),
+# which makes every configuration be reported as in collision. Self-collision is
+# only meaningful with the URDF model.
+consider_self_collision: false

@@ -1,0 +1,7 @@
+min_ee_distance: 0.1
+
+# The case study uses a reduced number of samples so that the three schemes can
+# be compared in a reasonable time. Increase it for production use.
+num_samples: 100
+
+use_parallel: false
